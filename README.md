@@ -74,9 +74,25 @@ In response to these findings, we generated a new dataset that only looks at sev
 
 PLOT HERE
 
+### Bivariate Analysis
+
+### Interesting Aggregates
+
+TABLE HERE
+
+We were curious to group power outages by YEAR and analyze the aggregate statistics that we would obtain from CUSTOMERS.AFFECTED and ANOMALY.LEVEL, therefore, we created a pivot table. Since a more negative anomaly level represents colder weather in general and a higher anomaly level represents hotter weather, we wanted to observe what happened on average when the anomaly level was lower or higher and the average of customers affected. This would be significant to our analysis since a higher anomaly level for a certain year should be accompanied by a higher average of customers affected, as well as a higher count of power outages for that specific year. 
+
+Although we are ultimately subsetting the data frame to when the cause of the power outages was due to severe weather and dividing the data into summer and winter, we believed that it was still important to observe the trends that would take place annually in terms of anomaly level and customers affected.
+
 ---
 
 ## Assessment of Missingness
+
+### NMAR Analysis
+
+### Missing Dependency
+
+
 
 Here's what a Markdown table looks like. Note that the code for this table was generated _automatically_ from a DataFrame, using
 
