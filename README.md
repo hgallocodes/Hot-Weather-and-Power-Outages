@@ -10,6 +10,7 @@ Major power outages have had severe widespread impacts, disrupting daily life, b
 Our dataset is sourced from Purdue University and was utilized in an article called “A Multi-Hazard Approach to Assess Severe Weather-Induced Major Power Outage Risks in the U.S.”. It includes a substantial amount of information on the location of the outage, date and time information describing when the outage occurred, as well as climatic, economic, and electrical consumption patterns for the region of the outage. As per the Department of Energy, major power outage events are characterized based on the following; the event either impacted more than 50,000 customers or the event led to an unplanned firm load loss of 300 MW. Correspondingly, our dataset only includes major power outage events that meet these requirements. 
 
 We are interested in investigating the major causes of power outage events, such as when and where these events occur the most, and under what specific weather patterns. More specifically, we seek to answer the following: do major power outage events occur more in hotter weather? We focus our attention on time, location, and cause categories, resulting in a dataset of 1534 rows and 9 columns. The column categories we saved are year, month, U.S. State, NERC region, outage start time, outage restoration time, cause category, cause category detail, and outage duration. The descriptions of each column variable are detailed as such:
+
 | Variable | Description |
 | ---------|----------|
 | YEAR | The year the outage event took place |
