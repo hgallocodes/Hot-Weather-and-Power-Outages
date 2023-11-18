@@ -23,6 +23,9 @@ We are interested in investigating the major causes of power outage events, such
 | CAUSE.CATEGORY | Categories of all the events causing the major power outages |
 | CAUSE.CATEGORY.DETAIL | Detailed description of the event categories causing the major power outages |
 
+Through our analysis, we hope to identify possible indicators for major power outage events. Identifying possible causes can help organizations implement effective preventive measures. For instance, if outages are frequently triggered by severe weather conditions, especially during specific seasons, reinforcing infrastructure or adjusting maintenance schedules in response to these times of need can mitigate power-outage-induced issues.
+
+
 
 ---
 
