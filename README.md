@@ -26,8 +26,6 @@ We are interested in investigating the major causes of power outage events, such
 
 Through our analysis, we hope to identify possible indicators for major power outage events. Identifying possible causes can help organizations implement effective preventive measures. For instance, if outages are frequently triggered by severe weather conditions, especially during specific seasons, reinforcing infrastructure or adjusting maintenance schedules in response to these times of need can mitigate power-outage-induced issues.
 
-
-
 ---
 
 ## Cleaning and EDA
@@ -81,20 +79,51 @@ Severe weather appears to have some missing values, about 25%, but it still prev
 Great! Now we have a clean dataframe that only includes severe-weather induced power outages. By excluding other causes, we can identify possible weather patterns that cause power outages. We can now take a look at some possible relationships between power outages and time, location, and weather conditions.
 
 
-
-
-
-
-
 ### Bivariate Analysis
+
+First let's take a look at power outages over time. We can do so by looking at number of customers affected and outage duration times over the months. Do power outages occur more in the summer time due to hotter weather? Let's see how mean outage durations change over time based on monthly categories.
+
+<iframe src="assets/fig5.html" width=800 height=600 frameBorder=0></iframe>
+
+Surprisingly enough, the longest mean outage duration times appear to be in the fall months. This may be due to heavier storms, as hotter seasons may have less severe weather conditions.
+
+This can be further determined by looking at anomaly level. Anomaly level represents the oceanic El Niño/La Niña (ONI) index referring to the cold and warm episodes by season, estimated as a 3-month running mean of ERSST.v4 SST anomalies in the Niño 3.4 region. Larger positive values indicate that the region where the power outage occurred had a hotter than usual weather pattern, compared to a mean of weather conditions within the past 30 years. On the other hand, larger negative values indicate that the region where the power outage occurred had an abnormally cold weather pattern.
+
+<iframe src="assets/fig6.html" width=800 height=600 frameBorder=0></iframe>
+
+We can see that the highest mean outage duration values are around -0.5 and 0.5, which is within the normal anomaly level range. There also seems to be more negative anomaly level values.
+
+Accordingly, our dataset of severe-weather induced power outages seems to have more cold-weather patterns than hot-weather patterns. Yet, our data revolves around very small anomaly level values, meaning that the weather may still be considered "normal" based on this variable.
+
+Unfortunately, anomaly level doesn't appear to be a great representation for weather conditions during the outage. This may be due to the fact that anomaly level is a metric that measures deviation in 3-month long weather conditions with normal regular conditions. This 3-month period may be too long to provide a useful representation of the weather at the time of the outage. Instead, we can use the cause of the outage, as well as the season of the outage, to assume possible weather conditions and how they influenced the number of power outages that occurred.
 
 ### Interesting Aggregates
 
-TABLE HERE
+|   ('CUSTOMERS.AFFECTED', 'count') |   ('CUSTOMERS.AFFECTED', 'mean') |   ('ANOMALY.LEVEL', 'count') |   ('ANOMALY.LEVEL', 'mean') |
+|----------------------------------:|---------------------------------:|-----------------------------:|----------------------------:|
+|                                13 |                           109254 |                           10 |                  -0.83      |
+|                                 1 |                            36073 |                            1 |                  -0.1       |
+|                                13 |                           469430 |                           12 |                   0.816667  |
+|                                30 |                           179991 |                           30 |                   0.203333  |
+|                                51 |                           255258 |                           56 |                   0.473214  |
+|                                45 |                           265103 |                           47 |                   0.0574468 |
+|                                50 |                           183338 |                           54 |                   0.224074  |
+|                                36 |                           159309 |                           40 |                  -0.4425    |
+|                                75 |                           241344 |                           76 |                  -0.594737  |
+|                                43 |                           145498 |                           45 |                   0.0755556 |
+|                                59 |                           163006 |                           62 |                  -0.329032  |
+|                               104 |                           141015 |                          107 |                  -0.625234  |
+|                                63 |                           198161 |                           65 |                   0.0738462 |
+|                                47 |                           137655 |                           49 |                  -0.277551  |
+|                                30 |                           266473 |                           45 |                  -0.335556  |
+|                                45 |                           117705 |                           48 |                   1.38125   |
+|                                12 |                           126214 |                           12 |                   0.725     |
 
-We were curious to group power outages by YEAR and analyze the aggregate statistics that we would obtain from CUSTOMERS.AFFECTED and ANOMALY.LEVEL, therefore, we created a pivot table. Since a more negative anomaly level represents colder weather in general and a higher anomaly level represents hotter weather, we wanted to observe what happened on average when the anomaly level was lower or higher and the average of customers affected. This would be significant to our analysis since a higher anomaly level for a certain year should be accompanied by a higher average of customers affected, as well as a higher count of power outages for that specific year. 
+We were curious to group power outages by YEAR and analyze the aggregate statistics that we would obtain from CUSTOMERS.AFFECTED and ANOMALY.LEVEL, so we created a pivot table. This pivot table contains the aggregated statistics, mean and count, for both CUSTOMERS.AFFECTED and ANOMALY.LEVEL grouped by YEAR. A high negative anomaly level represents colder weather in general and a high positive anomaly level represents hotter weather. Taking this into account, we wanted to observe what happened on average when the anomaly level was lower or higher and how the average of customers was affected as well as the count of power outages. This is significant to our analysis since we think that a higher anomaly level could be accompanied by a higher average of customers affected, as well as a higher count of power outages for that specific year. It is not until we perform hypothesis testing that we will be able to determine if this might be true or not, but for now performing this form of exploratory analysis will give us a clearer picture of our data.
 
-Although we are ultimately subsetting the data frame to when the cause of the power outages was due to severe weather and dividing the data into summer and winter, we believed that it was still important to observe the trends that would take place annually in terms of anomaly level and customers affected.
+Something that is worth taking note of is that there doesn't seem to be a higher average of customers affected when the anomaly is higher or lower. It seems like on average, the number of customers affected is independent of the anomaly level. The same thing can be said about the count statistic. A higher anomaly level, or in other words a hotter weather, doesn’t seem to be a variable that influences customers affected on average. The same trend can be observed in the opposite direction; that is, a higher negative anomaly level doesn’t seem indicative of a higher count of power outages and a higher average of customers affected.
+
+Although we are ultimately subsetting the data frame to only include power outages caused by severe weather and dividing the data into summer and winter based on the MONTH variable, we believe that it was still important to observe the trends that would take place annually in terms of anomaly level and customers affected. This is due to the fact that it could help us later when finding missingness dependency, specially because the count of power outages by YEAR seems to vary a lot from year to year.
 
 ---
 
