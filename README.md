@@ -69,6 +69,7 @@ Here is the percent of missing values for each cause detail category. We can see
 Severe weather appears to have some missing values, about 25%, but it still prevails as the category with the most observations. As is such, we are interested in identifying possible relationships between weather patterns and power outages. To do so, we have created a sub-dataframe that only includes observations that have 'severe weather' as the main cause category.
 
 
+
 |   YEAR |   MONTH |   ANOMALY.LEVEL | OUTAGE.START        | OUTAGE.RESTORATION   | CAUSE.CATEGORY   | CAUSE.CATEGORY.DETAIL   |   OUTAGE.DURATION |   CUSTOMERS.AFFECTED | SEASON   |
 |-------:|--------:|----------------:|:--------------------|:---------------------|:-----------------|:------------------------|------------------:|---------------------:|:---------|
 |   2011 |       7 |            -0.3 | 2011-07-01 17:00:00 | 2011-07-03 20:00:00  | severe weather   | nan                     |              3060 |                70000 | summer   |
@@ -77,12 +78,13 @@ Severe weather appears to have some missing values, about 25%, but it still prev
 |   2015 |       7 |             1.2 | 2015-07-18 02:00:00 | 2015-07-19 07:00:00  | severe weather   | nan                     |              1740 |               250000 | summer   |
 |   2010 |      11 |            -1.4 | 2010-11-13 15:00:00 | 2010-11-14 22:00:00  | severe weather   | winter                  |              1860 |                60000 | fall     |
 
+
 Great! Now we have a clean dataframe that only includes severe-weather induced power outages. By excluding other causes, we can identify possible weather patterns that cause power outages. We can now take a look at some possible relationships between power outages and time, location, and weather conditions.
 
 
 ### Bivariate Analysis
 
-First let's take a look at power outages over time. We can do so by looking at number of customers affected and outage duration times over the months. Do power outages occur more in the summer time due to hotter weather? Let's see how mean outage durations change over time based on monthly categories.
+First let's take a look at power outages over time. We can do so by looking at customers affecteed and outage duration times over the months and years. Do power outages occur more in the winter time due to colder weather? Let's see how mean outage durations change over time based on monthly categories.
 
 <iframe src="assets/fig5.html" width=800 height=600 frameBorder=0></iframe>
 
