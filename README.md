@@ -1,6 +1,6 @@
 # Does Hotter Weather Lead to More Power Outages?
 
-by Sarah Borsotto (idk your email sorry) and Hector Gallo (hgallo@ucsd.edu)
+by Sarah Borsotto (sborsott@ucsd.edu) and Hector Gallo (hgallo@ucsd.edu)
 
 ---
 
