@@ -34,27 +34,26 @@ Through our analysis, we hope to identify possible indicators for major power ou
 
 ### Data Cleaning
 
-First, let's take a look at our dataset:
+At first glance, we can see that the first two columns and the first row of the dataset include many NaN values. This is because the variable column denotes the units used for each measure in the following columns, as described in the first row. We will remove this row since we already have information about the units of each variable.
 
-SHOW HEAD
+We also want to combine the OUTAGE.START.TIME and OUTAGE.START.DATE columns into one variable called OUTAGE.START, and then repeat the same thing for a new OUTAGE.RESTORATION column. We will do so using some helper functions.
 
-<iframe src="assets/10-80-enrollment.html" width=800 height=600 frameBorder=0></iframe>
+Since we are only interested in looking at potential causes for power outage events, especially weather-induced factors, we will only keep some of the columns. The columns we wanted to focus on are year, month, anomaly level, outage start time, outage restoration time, cause category, cause category detail, outage duration, and customers affected.
 
-At first glance, we can see that the first two columns and the first row of the dataset include many NaN values. This is because the variable column denotes the units used for each measure in the following columns, as described in the first row. We will remove this unnecessary row and column since we already have information about the units of each variable. 
-We also want to combine the OUTAGE.START.TIME and OUTAGE.START.DATE columns into one variable called OUTAGE.START, and then repeat the same thing for a new OUTAGE.RESTORATION column.
-Since we are only interested in looking at potential causes for power outage events, especially weather-induced factors, we will only keep some of the columns. The columns we wanted to focus on are year, month, U.S. State, NERC region, climate region, anomaly level, outage start time, outage restoration time, cause category, cause category detail, and outage duration.
+For our hypothesis testing later on, we also need information on the season. We have created a helper function that takes in the month of the power outage and returns the season that the power outage occurred in. This was saved to a new column called SEASON. For our hypothesis testing later on, we also need information on the season. We have created a helper function that takes in the month of the power outage and returns the season that the power outage occurred in. This was saved to a new column called SEASON.
 
-Our resulting data frame contains 1534 rows and 11 columns. The data types for this dataframe is shown below:
+We need to convert the YEAR and MONTH columns to integer and the ANOMALY.LEVEL and OUTAGE.DURATION columns to float. This is necessary for us to be able to calculate means of the durations and anomaly level variables when we perform data analysis later on. After inspecting each column for abnormal values, we noticed that some of the values in CAUSE.CATEGORY.DETAIL have unnecessary capitalization and spacing, as well as repeating categories, such as winter and winter storm. These can be grouped together so we can investigate weather patterns in a more general sense. We take care of these concerns and develop the resulting dataframe with the corresponding data types:
 
-SHOW DATATYPES
+Below is the cleaned outages dataframe:
 
-We need to convert the YEAR, MONTH, and OUTAGE.DURATION columns to integer, and ANOMALY.LEVEL to float. After inspecting each column for abnormal values, we noticed that some of the values in CAUSE.CATEGORY.DETAIL have unnecessary capitalization and spacing, as well as repeated categories, such as winter and winter storm. We take care of these concerns and develop the resulting dataframe with the corresponding data types:
+|   YEAR |   MONTH |   ANOMALY.LEVEL | OUTAGE.START        | OUTAGE.RESTORATION   | CAUSE.CATEGORY     | CAUSE.CATEGORY.DETAIL   |   OUTAGE.DURATION |   CUSTOMERS.AFFECTED | SEASON   |
+|-------:|--------:|----------------:|:--------------------|:---------------------|:-------------------|:------------------------|------------------:|---------------------:|:---------|
+|   2011 |       7 |            -0.3 | 2011-07-01 17:00:00 | 2011-07-03 20:00:00  | severe weather     | nan                     |              3060 |                70000 | summer   |
+|   2014 |       5 |            -0.1 | 2014-05-11 18:38:00 | 2014-05-11 18:39:00  | intentional attack | vandalism               |                 1 |                  nan | spring   |
+|   2010 |      10 |            -1.5 | 2010-10-26 20:00:00 | 2010-10-28 22:00:00  | severe weather     | wind                    |              3000 |                70000 | fall     |
+|   2012 |       6 |            -0.1 | 2012-06-19 04:30:00 | 2012-06-20 23:00:00  | severe weather     | thunderstorm            |              2550 |                68200 | summer   |
+|   2015 |       7 |             1.2 | 2015-07-18 02:00:00 | 2015-07-19 07:00:00  | severe weather     | nan                     |              1740 |               250000 | summer   |
 
-SHOW DATATYPES
-
-
-
-<iframe src="assets/10-80-enrollment.html" width=800 height=600 frameBorder=0></iframe>
 
 ### Univariate Analysis
 
