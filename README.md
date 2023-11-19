@@ -16,6 +16,7 @@ We are interested in investigating the major causes of power outage events, such
 | ---------|----------|
 | YEAR | The year the outage event took place |
 | MONTH | The month the outage event took place |
+| ANOMALY.LEVEL | Represents the oceanic El Niño/La Niña (ONI) index referring to the cold and warm episodes by season, estimated as a 3-month running mean of ERSST.v4 SST anomalies in the Niño 3.4 region. |
 | OUTAGE.START | Indicates the date and time that the power outage began |
 | OUTAGE.RESTORATION | Indicates the date and time that power was restored for all customers |
 | CAUSE.CATEGORY | Categories of all the events causing the major power outages |
