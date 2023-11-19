@@ -42,9 +42,7 @@ Since we are only interested in looking at potential causes for power outage eve
 
 For our hypothesis testing later on, we also need information on the season. We have created a helper function that takes in the month of the power outage and returns the season that the power outage occurred in. This was saved to a new column called SEASON. For our hypothesis testing later on, we also need information on the season. We have created a helper function that takes in the month of the power outage and returns the season that the power outage occurred in. This was saved to a new column called SEASON.
 
-We need to convert the YEAR and MONTH columns to integer and the ANOMALY.LEVEL and OUTAGE.DURATION columns to float. This is necessary for us to be able to calculate means of the durations and anomaly level variables when we perform data analysis later on. After inspecting each column for abnormal values, we noticed that some of the values in CAUSE.CATEGORY.DETAIL have unnecessary capitalization and spacing, as well as repeating categories, such as winter and winter storm. These can be grouped together so we can investigate weather patterns in a more general sense. We take care of these concerns and develop the resulting dataframe with the corresponding data types:
-
-Below is the cleaned outages dataframe:
+We also need to convert the YEAR and MONTH columns to integer and the ANOMALY.LEVEL and OUTAGE.DURATION columns to float. This is necessary for us to be able to calculate means of the durations and anomaly level variables when we perform data analysis later on. After inspecting each column for abnormal values, we noticed that some of the values in CAUSE.CATEGORY.DETAIL have unnecessary capitalization and spacing, as well as repeating categories, such as winter and winter storm. These can be grouped together so we can investigate weather patterns in a more general sense. We take care of these concerns and develop the resulting dataframe:
 
 |   YEAR |   MONTH |   ANOMALY.LEVEL | OUTAGE.START        | OUTAGE.RESTORATION   | CAUSE.CATEGORY     | CAUSE.CATEGORY.DETAIL   |   OUTAGE.DURATION |   CUSTOMERS.AFFECTED | SEASON   |
 |-------:|--------:|----------------:|:--------------------|:---------------------|:-------------------|:------------------------|------------------:|---------------------:|:---------|
@@ -59,19 +57,34 @@ Below is the cleaned outages dataframe:
 
 We are primarily interested in pinpointing the main causes of power outages. Conveniently enough, our dataset contains categorical information on the cause of the event, in a column named “CAUSE.CATEGORY”. We have included a histogram plot of this variable below:
 
-PLOT HERE
+<iframe src="assets/cause_major_power.html" width=800 height=600 frameBorder=0></iframe>
 
-Evidently, ‘severe weather’ appears to have the highest count relative to all of the other causes. While ‘intentional attack’ seems to also have a high count, it makes up only half of ‘severe weather’s’ count. As is such, we would like to center our analysis on the most prominent cause category, severe weather. 
+Evidently, ‘severe weather’ appears to have the highest count relative to all of the other causes. While ‘intentional attack’ seems to also have a high count, it makes up only half of ‘severe weather’s’ count. As is such, we would like to center our analysis on the most prominent cause category, severe weather.
 
-Considering that severe weather is a major factor for power outage events, we are curious to discover what specific severe weather conditions can be used to predict these events. Unlike the “CAUSE.CATEGORY” column, which has 0 missing values, our “CAUSE.CATEGORY.DETAIL” column, describing the cause in more detail, does have missing values. 
+Considering that severe weather is a major factor for power outage events, we are curious to discover what specific severe weather conditions can be used to predict these events. Unlike the “CAUSE.CATEGORY” column, which has 0 missing values, our “CAUSE.CATEGORY.DETAIL” column, describing the cause in more detail, does have missing values.
 
-PLOT HERE
+<iframe src="assets/fig2.html" width=800 height=600 frameBorder=0></iframe>
 
-As we can see here, about 25% of the ‘CAUSE.CATEGORY.DETAIL’ values are missing for the severe weather category, whereas islanding, public appeal, and system operability disruption have far higher proportions of missing values, perhaps because there aren’t as many possible sub-categories for these variables. Interestingly, intentional attack seems to have the lowest proportion of missing values in the cause category detail column. Based on the total number of values and the proportion of missing values, though, severe weather still has a greater number of observations than intentional attack, with 370 events and 576 events respectively. We have therefore decided to only investigate severe weather causes, since we have more data available for those factors. We further investigate these missing values in our missingness section.
+Here is the percent of missing values for each cause detail category. We can see that islanding, public appeal, and system operability disruption have high proportions of missing values. This may be due to there not being many categories to describe the cause in detail, as the cause is already somewhat specific.
 
-In response to these findings, we generated a new dataset that only looks at severe weather induced power outages. Our updated dataset still has all of the same columns, but now has 763 rows, which all have “severe weather” in the “CLIMATE.CATEGORY” column. 
+Severe weather appears to have some missing values, about 25%, but it still prevails as the category with the most observations. As is such, we are interested in identifying possible relationships between weather patterns and power outages. To do so, we have created a sub-dataframe that only includes observations that have 'severe weather' as the main cause category.
 
-PLOT HERE
+
+|   YEAR |   MONTH |   ANOMALY.LEVEL | OUTAGE.START        | OUTAGE.RESTORATION   | CAUSE.CATEGORY   | CAUSE.CATEGORY.DETAIL   |   OUTAGE.DURATION |   CUSTOMERS.AFFECTED | SEASON   |
+|-------:|--------:|----------------:|:--------------------|:---------------------|:-----------------|:------------------------|------------------:|---------------------:|:---------|
+|   2011 |       7 |            -0.3 | 2011-07-01 17:00:00 | 2011-07-03 20:00:00  | severe weather   | nan                     |              3060 |                70000 | summer   |
+|   2010 |      10 |            -1.5 | 2010-10-26 20:00:00 | 2010-10-28 22:00:00  | severe weather   | wind                    |              3000 |                70000 | fall     |
+|   2012 |       6 |            -0.1 | 2012-06-19 04:30:00 | 2012-06-20 23:00:00  | severe weather   | thunderstorm            |              2550 |                68200 | summer   |
+|   2015 |       7 |             1.2 | 2015-07-18 02:00:00 | 2015-07-19 07:00:00  | severe weather   | nan                     |              1740 |               250000 | summer   |
+|   2010 |      11 |            -1.4 | 2010-11-13 15:00:00 | 2010-11-14 22:00:00  | severe weather   | winter                  |              1860 |                60000 | fall     |
+
+Great! Now we have a clean dataframe that only includes severe-weather induced power outages. By excluding other causes, we can identify possible weather patterns that cause power outages. We can now take a look at some possible relationships between power outages and time, location, and weather conditions.
+
+
+
+
+
+
 
 ### Bivariate Analysis
 
