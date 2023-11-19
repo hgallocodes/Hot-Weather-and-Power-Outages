@@ -131,25 +131,30 @@ Although we are ultimately subsetting the data frame to only include power outag
 
 ### NMAR Analysis
 
+As we can see in the “Counts of Major Power Outages Cases” visualization, there are very few power outages caused by system operability disruption and equipment failure when we look at the CAUSE.CATEGORY column and the frequency of each value. The majority of the power outages are due to severe weather and intentional attacks which are the values in this column with the most occurrences. 
+
+A value is NMAR (Not Missing At Random) when the chance that a value is missing depends on the actual missing value. In this case, we believe that the CAUSE.CATEGORY column is NMAR. We suspect that the low number of power outages being reported due to system operability and equipment failure are caused by the electricity providers’ choice to keep a good reputation and to seem reliable to the government and others by not reporting these power outages often. Although we are not saying that companies are purposely altering the number of reported outages for each cause, we do believe that since they might not be in favor of reporting outages due to system operability disruption and equipment failure, they might put more focus on collecting data when power outages are caused by other reasons, which in this case might be severe weather. Therefore, there might be a lower number of outages being reported to be caused by system operability disruption and equipment failure.
+
+In this case, an additional set of data that we might want to obtain to make this variable MAR is one where we have a column that contains a column with boolean values that are True when the company reported the power outage themselves and False when the government had to ask them for the cause of the power outage. This column of booleans would allow us to observe in conjunction with the CAUSE.CATEGORY what the cause is for each power outage, and if the government had to ask for this data or if the company voluntarily reported it. By taking a look at the datasets that were used to acquire the data used in this dataset, we noticed that all of them were created by governmental agencies. This is why we think that it is plausible that we could obtain a dataset that would help us learn whether each power outage cause was reported by the company or asked by the government to be reported. A failure to report voluntarily would suggest that the electricity providing company prefers not to admit that the cause of the power failure was in fact due to system operability disruption and equipment failure.
+
 ### Missing Dependency
 
+We opted to analyze the CAUSE.CATEGORY.DETAIL column with non-trivial missingness to analyze the dependency of the missingness of this column on other columns. After running permutation tests, we were able to observe that the missingness of CAUSE.CATEGORY.DETAIL depends on the column MONTH and that it does not depend on the CUSTOMERS.AFFECTED column.
 
+We chose the Kolmogorov-Smirnov test statistic since we wanted to measure the similarity between the two distributions, when CAUSE.CATEGORY.DETAIL is missing and when it’s not. After creating a function that does this for us, we proceeded to create a function that would iterate 1000 times and for each iteration compute the Kolmogorov-Smirnov statistic for the distribution of MONTH when the CAUSE.CATEGORY.DETAIL was missing. If our observed statistic seemed to not belong to the empirical distribution of the test statistic, then we would be able to determine that the missingness of the CAUSE.CATEGORY.DETAIL does depend on the MONTH column. Below are the results of these permutation tests:
 
-Here's what a Markdown table looks like. Note that the code for this table was generated _automatically_ from a DataFrame, using
+<iframe src="assets/figm1.html" width=800 height=600 frameBorder=0></iframe>
 
-```py
-print(counts[['Quarter', 'Count']].head().to_markdown(index=False))
-```
+In respect to our question, these permutation tests show that the missingess on CAUSE.CATEGORY.DETAIL depends on MONTH. Just as the missigness of CAUSE.CATEGORY.DETAIL depends on MONTH, we can expect other variables like OUTAGE.DURATION to also depend on MONTH. Using the permutation tests and the Kolmogorov-Smirnov test statistic, we can conclude that the CAUSE.CATEGORY.DETAIL is MAR since our observed statistic has a p-value of 0.0001, using a significance level of 0.01.
 
-| Quarter     |   Count |
-|:------------|--------:|
-| Fall 2020   |       3 |
-| Winter 2021 |       2 |
-| Spring 2021 |       6 |
-| Summer 2021 |       4 |
-| Fall 2021   |      55 |
+Like we mentioned before, after running the permutation tests, we were able to observe that the missingness of CAUSE.CATEGORY.DETAIL depends on the column MONTH and that it does not depend on the CUSTOMERS.AFFECTED column.
 
----
+Similarly, to when we performed the permutation tests to find a dependency of CAUSE.CATEGORY.DETAIL on MONTH, we chose the Kolmogorov-Smirnov test statistic since we wanted to measure the similarity between the two distributions, when CAUSE.CATEGORY.DETAIL is missing and when it’s not. Using the same function that we used previously, we iterated 1000 times and for each iteration computed the Kolmogorov-Smirnov statistic for the distribution of CUSTOMERS.AFFECTED when the CAUSE.CATEGORY.DETAIL was missing and when it wasn’t. If our observed statistic seemed to not belong to the empirical distribution of the test statistic, then we would be able to determine that the missingness of the CAUSE.CATEGORY.DETAIL does depend on the MONTH column. However, in this case, we suspected that the observed statistic would belong to the empirical distribution of the test statistic, and that we’d determine that the missingness of the CAUSE.CATEGORY.DETAIL does not depend on the CUSTOMERS.AFFECTED column. Below are the results of these permutation tests:
+
+<iframe src="assets/figm2.html" width=800 height=600 frameBorder=0></iframe>
+
+In respect to our question, these permutation tests show that the missingness of CAUSE.CATEGORY.DETAIL does not depend on CUSTOMERS.AFFECTED. We can connect this to our question in the sense that the variable CUSTOMERS.AFFECTED doesn't have a direct correlation to CAUSE.CATEGORY.DETAIL, since CAUSE.CATEGROY.DETAIL describes weather and CUSTOMERS.AFFETCED is a measure of the population in each city. Since, CUSTOMERS.AFFECTED does not seem to be a variable that the missingness of CAUSE.CATEGORY.DETAIL depends on, then we think that it is not relevant to take CUSTOMERS.AFFECTED into account when answering our question. Our question aims to analyze whether there will be a longer duration of power outages during a colder weather. CUSTOMERS.AFFECTED is a variable that far from helping us drive our study forward, could distract us from obtaining an answer. On the other hand, knowing that the missingness of CAUSE.CATEGORY.DETAIL depends on MONTH, tells us that we should definitely take into consideration dividing our data into summer and winter based on the months. Using the permutation tests and the Kolmogorov-Smirnov test statistic, we conclude that the CAUSE.CATEGORY.DETAIL is not dependent on CUSTOMERS.AFFECTED since our observed statistic has a p-value of 0.0117, using a significance level of 0.01.
+
 
 ## Hypothesis Testing
 
