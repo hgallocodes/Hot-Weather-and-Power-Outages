@@ -1,4 +1,4 @@
-# Does Hotter Weather Lead to More Power Outages?
+# Does Colder Weather Lead to Longer Power Outages?
 
 by Sarah Borsotto (sborsott@ucsd.edu) and Hector Gallo (hgallo@ucsd.edu)
 
