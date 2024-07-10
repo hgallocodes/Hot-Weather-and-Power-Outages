@@ -182,4 +182,5 @@ The p-value after the permutation test is 0.024, which is less than our signific
 
 This may be due to the presence of more storms in colder weather, leading to longer mean duration times. Suitably, companies may want to allocate their resources to places with colder weather, and during colder seasons. Additional analysis may be performed to further investigate this question by looking at the weather forecast for the day of the power outage. Since we did not have this data, we believe our definition of hot and cold weather based on season and cause is a good representation of the weather at the time of the power outage.
 
+
 ---
